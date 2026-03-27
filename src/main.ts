@@ -49,4 +49,4 @@ const answerServer = new LinkServer(api);
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
-})()зц;
+})();
