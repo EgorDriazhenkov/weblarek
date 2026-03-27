@@ -12,8 +12,8 @@ export class Basket {
   }
 
   removeItem(item:IProduct) {
-    this._items.filter((product) => {
-      return product.id === item.id;
+    this._items = this._items.filter((product) => {
+      return product.id !== item.id;
     })
   }
 

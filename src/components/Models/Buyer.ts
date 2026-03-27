@@ -17,7 +17,7 @@ export class Buyer {
     get payment():TPayment {return this._payment};
 
     getAllData() {
-      return {"address": this._address,"phone": this._phone, "email": this._email, "payment": this._payment}
+      return {"address": this.address,"phone": this.phone, "email": this.email, "payment": this.payment}
     }
 
     clear() {
@@ -28,7 +28,7 @@ export class Buyer {
     }
 
     validate() {
-      let valid : {address?: string, email? : string, payment?: string, phone?: string} = {};
+      const valid : {address?: string, email? : string, payment?: string, phone?: string} = {};
       if (!this._address) {
         valid.address = "Укажите адресс"
       }
@@ -38,7 +38,7 @@ export class Buyer {
       }
 
       if (!this.payment) {
-        valid.email = "Укажите вид оплаты"
+        valid.payment = "Укажите вид оплаты"
       }
 
       if (!this.phone) {

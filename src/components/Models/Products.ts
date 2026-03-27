@@ -1,8 +1,8 @@
 import { IProduct } from "../../types/index.ts"
 
 export class Products {
-  private _items!: IProduct[];
-  private _selectedProduct!: IProduct | undefined;
+  private _items: IProduct[] = [];
+  private _selectedProduct: IProduct | undefined;
 
 
   setProducts (items:IProduct[]) {

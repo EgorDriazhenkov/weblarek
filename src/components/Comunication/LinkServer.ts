@@ -1,5 +1,5 @@
 import { IApi } from "../../types";
-import { IResponse, IOrder} from "../../types";
+import { IProductsResponse, IOrder,IAnswerSer} from "../../types";
 
 export class LinkServer {
  
@@ -9,19 +9,16 @@ export class LinkServer {
     this.api = api;
   }
 
-  async getProducts(): Promise<IResponse> {
-    const products = await this.api.get<IResponse>("/product/");
+  async getProducts(): Promise<IProductsResponse> {
+    const products = await this.api.get<IProductsResponse>("/product/");
     return products; 
   }
 
  
   async sendOrder(
     orderData: IOrder,
-  ): Promise<{ confirmation: string; totalAmount: number }> {
-    const answer = await this.api.post<{
-      confirmation: string; 
-      totalAmount: number; 
-    }>("/order/", orderData);
+  ): Promise<IAnswerSer> {
+    const answer = await this.api.post<IAnswerSer>("/order/", orderData);
     return answer; 
   }
 }

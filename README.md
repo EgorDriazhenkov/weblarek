@@ -103,37 +103,37 @@ Presenter - презентер содержит основную логику п
 #### Класс Products 
 Класс отвечает за хранение и работу с карточками.
 
-- setProducts(item) - сохранение массива товаров
-- getProducts() - получение массива товаров
-- getProductById(itemId) - получение одного товара по его id
-- setSelectedPoduct(itemId) - сохранение товара для подробного отображения
-- getSelectedPoduct() - получение товара для подробного отображения
+- setProducts(item:IProduct[]) - сохранение массива товаров
+- getProducts():IProduct[] - получение массива товаров
+- getProductById(itemId:string):IProduct - получение одного товара по его id
+- setSelectedPoduct(itemId:string) - сохранение товара для подробного отображения
+- getSelectedPoduct():IProduct - получение товара для подробного отображения
 
 #### Класс Basket
 Класс отвечает за хранение, добавление и работу с товарами, которые находятся в корзине.
 
-- get items - получение массива товаров, которые находятся в корзине
-- addItem(item) - добавление товара в массив корзины
-- removeItem(item) - удаление товара из массива корзины
+- get items: IProduct[] - получение массива товаров, которые находятся в корзине
+- addItem(item:IProduct) - добавление товара в массив корзины
+- removeItem(item:IProduct) - удаление товара из массива корзины
 - clearBusket() - очистить корзину
-- getProductsPrice() - получить цену всех товаров в корзине
-- getProductsQuantity() - получить количество товаров в корзине
-- checkProductInBasket(itemId) - проверить есть ли товар в корзине
+- getProductsPrice():number - получить цену всех товаров в корзине
+- getProductsQuantity():number - получить количество товаров в корзине
+- checkProductInBasket(itemId:string):boolean - проверить есть ли товар в корзине
 
 #### Класс Buyer 
 Класс отвечает за хранени и работу с данными о покупателе
 
-- set address(value) - сохранение адреса покупателя
-- set phone(value) - сохранение телефона покупателя
-- set email(value) - сохранение email покупателя
-- set payment(value) - cохранение способа оплаты
-- get address() - получение адреса покупателя
-- get phone() - получение телефона покупателя
-- get email() - получение email покупателя
-- get payment() - получение способа оплаты
-- getAllData() - получение всех данных покупателя
+- set address(value:string) - сохранение адреса покупателя
+- set phone(value:string) - сохранение телефона покупателя
+- set email(value:string) - сохранение email покупателя
+- set payment(value:string) - cохранение способа оплаты
+- get address():string - получение адреса покупателя
+- get phone():string - получение телефона покупателя
+- get email():string - получение email покупателя
+- get payment():string - получение способа оплаты
+- getAllData():IBuyer - получение всех данных покупателя
 - clear() - очищение данных покупателя
-- validate() - валидация данных 
+- validate():object - валидация данных 
 
 ### Слой коммуникации 
 
@@ -141,4 +141,4 @@ Presenter - презентер содержит основную логику п
 Класс, с помощью которого будет взаимодействие с сервером
 
 - getProducts() - получение списка товаров
-- sendOrder(orderData) - отправление заказа
+- sendOrder(orderData:IOrder) - отправление заказа
