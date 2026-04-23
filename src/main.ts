@@ -51,8 +51,6 @@ const answerServer = new LinkServer(api);
   }
 })();
 
-console.log(basketView)
-
 events.onAll((event) => {
     console.log('msg->', event.eventName, event.data)
 })
