@@ -1,12 +1,18 @@
 import { IProduct } from "../../types/index.ts"
+import { IEvents } from '../base/Events';
 
 export class Products {
   private _items: IProduct[] = [];
   private _selectedProduct: IProduct | undefined;
 
+  constructor(protected events:IEvents) {
+    this.events = events;
+  }
+  
 
   setProducts (items:IProduct[]) {
     this._items = items;
+    this.events.emit('product:change')
   }
 
   getProducts () {

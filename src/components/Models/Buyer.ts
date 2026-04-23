@@ -1,4 +1,5 @@
 import { TPayment} from "../../types/index.ts" 
+import { IEvents } from '../base/Events';
 
 export class Buyer {
     private _address!: string;
@@ -6,10 +7,29 @@ export class Buyer {
     private _phone!: string;
     private _payment!: TPayment
 
-    set address(value: string) {this._address = value;};
-    set phone(value: string) {this._phone = value;};
-    set email(value: string) {this._email = value;};
-    set payment(value: TPayment) {this._payment = value;};
+    constructor(protected events:IEvents) {
+      this.events = events;
+    }
+
+    set address(value: string) {
+      this._address = value;
+      this.events.emit('buyer:change');
+    };
+
+    set phone(value: string) {
+      this._phone = value;
+      this.events.emit('buyer:change');
+    };
+
+    set email(value: string) {
+      this._email = value;
+      this.events.emit('buyer:change');
+    };
+
+    set payment(value: TPayment) {
+      this._payment = value;
+      this.events.emit('buyer:change');
+    };
 
     get address():string {return this._address};
     get phone():string {return this._phone};
@@ -30,19 +50,27 @@ export class Buyer {
     validate() {
       const valid : {address?: string, email? : string, payment?: string, phone?: string} = {};
       if (!this._address) {
-        valid.address = "Укажите адресс"
+        valid.address = "Укажите адресс. "
+      } else {
+        valid.address = ""
       }
 
       if (!this._email) {
-        valid.email = "Укажите email"
+        valid.email = "Укажите email. "
+      } else {
+        valid.email = ""
       }
 
       if (!this.payment) {
-        valid.payment = "Укажите вид оплаты"
+        valid.payment = "Укажите вид оплаты. "
+      } else {
+        valid.payment = ""
       }
 
       if (!this.phone) {
-        valid.phone = "Укажите телефон"
+        valid.phone = "Укажите телефон. "
+      } else {
+        valid.phone = ""
       }
 
       return valid

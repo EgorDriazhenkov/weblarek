@@ -142,3 +142,113 @@ Presenter - презентер содержит основную логику п
 
 - getProducts() - получение списка товаров
 - sendOrder(orderData:IOrder) - отправление заказа
+
+### Слой представления
+
+#### Класс Card
+
+Обобщенный класс для всех видов карточек в проекте. Наследует свойства и меторды класса Component.
+
+- constructor (container: HTMLElement) - конструктор
+- set title(value: string) - сеттер загаловка карточки
+- set price(value: number | null) - сеттер цены карточки
+
+#### Класс CardBasket 
+
+Класс, отвечающий за отображение карточек в корзине. Наследует свойства и меторды класса Card.
+
+- constructor( container: HTMLElement, action?:ICardAction) - конструктор
+- set basketItemIndex(value:number) - сеттер порядкого номера товара в корзине
+
+#### Класс CardCatalog 
+
+Класс, отвечающий за отображение карточек товаров в галлерее на главное странице. Наследует свойства и меторды класса Card.
+
+- constructor(container: HTMLElement, action?:ICardAction) - конструктор
+- set category(value: string) - сеттер категории товара
+- set image(value: string) сеттер изображения
+
+#### Класс CardCatalog
+
+Класс, отвечающий за отображение выбранной карточки. Наследует свойства и меторды класса Card.
+
+- constructor(container: HTMLElement, action?:ICardAction ) - конструктор
+- set category(value: string) - сеттер категории товара
+- set image(value: string) сеттер изображения товара
+- set decription(value: string) - сеттер описания товара
+- set inBasket(value: boolean) - сеттер, отвечающий за надпись внутри кнопки, в зависимости от того, находится ли товар в корзине
+
+#### Класс Gallery 
+
+Класс, отвечающий за отображение галлереи товаров. Наследует свойства и меторды класса Component.
+
+- constructor(container: HTMLElement) - конструктор
+- set catalog(items:HTMLElement[]) - сеттер, который добавлет карточки товаров в галлерею 
+
+#### Класс Header 
+
+Класс, отвечающий за отображение шапки страницы. Наследует свойства и меторды класса Component.
+
+- constructor(protected events:IEvents, container: HTMLElement) - конструктор
+- set counter(value: number) - сеттер количества товаров в корзине
+
+#### Класс BasketView 
+
+Класс, отвечающий за отображение корзины. Наследует свойства и меторды класса Component.
+
+- constructor(protected events:IEvents, container: HTMLElement) - конструктор
+- set basketList(items:HTMLElement[])  - сеттер списка товаров в корзине
+- set totalPrice(value: number) - сеттер общей цены товаров в корзинею
+- set valid(value: boolean) - сеттер, отвечающий за активацию кнопки в корзине. Когда в корзине нет товаров, кнопка не активна.
+
+#### Класс Modal 
+
+Класс, отвечающий за отображение модального окна. Наследует свойства и меторды класса Component.
+
+- constructor(protected events:IEvents, container: HTMLElement) - конструктор
+- set content(value: HTMLElement) - сеттер содержимого модального окна
+- set display(value:boolean) - суттер, отвечающий за отображение модального окна
+
+#### Класс Form 
+
+Общий класс для форм. Наследует свойства и меторды класса Component.
+
+- constructor(protected events:IEvents, container: HTMLElement)
+- set valid(value: boolean) - сеттер отвечает за активацию кнопки submit в форме
+- set error(value: string | undefined) - сеттер ошибок при валидации формы
+
+#### Класс OrderForm 
+
+Класс, отвечающий за форму с указанием способа оплаты и адреса. Наследует свойства и меторды класса Form.
+
+- constructor(protected events:IEvents, container: HTMLElement) - конструктор
+
+#### Класс ContactForm 
+
+Класс, отвечающий за форму с указание контактов покупателя. Наследует свойства и меторды класса Form.
+
+- constructor(protected events:IEvents, container: HTMLElement) - конструктор
+
+## Взаимодействие компонентов
+
+Код, описывающий взаимодействие представления и данных, находится в файле main.ts, выполняющем роль презентера.
+Взаимодействие осуществляется за счет событий, генерируемых с помощью брокера событий, и обработчиков этих событий, описанных в main.ts
+В main.ts сначала создаются экземпляры всех необходимых классов, а затем настраивается обработка событий.
+
+### События изменения данных (генерируются классами моделей данных)
+
+- backet:change - изменения корзины
+- buyer:change - изменения данных пользователя
+
+### События, возникающие при взаимодействии пользователя с интерфесом 
+- card:selected - выбрана карточка для просмотра
+- modal:close - закрытие модального окна
+- basket:open - открытие корзины
+- product:addInBasket - добавление продукта в корзину
+- product:remove - удаление продукта из корзины
+- basket:order - нажатие кнопки "оформить" в корзине
+- form:onlineButtonSelected - выбор способа оплаты "онлайн" в форме
+- form:cardButtonSelected - выбор способа оплаты "при получении" в форме
+- form:change - изменение данных в полях форм
+- form:orderSubmit - нажатие кнопки "далее" в форме с адресом и выбором способа оплаты
+- form:contactsSubmit - нажатие кнопки "оплатить" в форме с контактами

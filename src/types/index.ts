@@ -1,6 +1,11 @@
+import { categoryMap } from "../utils/constants";
+
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
 export type TPayment = 'online' | 'card' | null;
+
+
+export type CategoryKey = keyof typeof categoryMap;
 
 export interface IAnswerSer {
   id: string;
@@ -49,3 +54,8 @@ export interface IOrder extends IBuyer {
   total: number;
   items: string[];
 }
+
+export interface ICardAction {
+  onClick: () => void;
+}
+
