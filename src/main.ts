@@ -46,7 +46,6 @@ const answerServer = new LinkServer(api);
   const data = await answerServer.getProducts();
   const productItems = data.items;
   products.setProducts(productItems);
-  console.log("Каталог, полученный с сервера:", products.getProducts());
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
@@ -81,6 +80,9 @@ events.on('card:selected', (item: IProduct) => {
         }
    });
   card.inBasket =  basket.checkProductInBasket(item.id)
+  if(item.price === null) {
+    card.unavailability = true;
+  }
   const cardPreview = card.render(item);
   modal.render({content: cardPreview, display: true})
 })

@@ -7,7 +7,12 @@ import { CDN_URL } from "../../utils/constants";
 import { CategoryKey } from "../../types";
 
 interface ICardPreview extends IProduct {
+  category: string;
+  image: string;
+  decription: string;
   inBasket: boolean;
+  unavailability: boolean;
+
 }
 
 export class CardPreview extends Card<ICardPreview> {
@@ -56,6 +61,13 @@ export class CardPreview extends Card<ICardPreview> {
     } else {
       this.buttonElement.textContent = 'В корзину';
     }
+  }
+
+  set unavailability(value: boolean) {
+  if (value) {
+    this.buttonElement.textContent = 'Недоступно';
+    this.buttonElement.disabled = true;
+  }
   }
 
 }
