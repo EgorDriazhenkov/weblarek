@@ -245,7 +245,7 @@ Presenter - презентер содержит основную логику п
 - card:selected - выбрана карточка для просмотра
 - modal:close - закрытие модального окна
 - basket:open - открытие корзины
-- product:addInBasket - добавление продукта в корзину
+- selectedCardButton:click - кнопка в выбранной карточке нажата
 - product:remove - удаление продукта из корзины
 - basket:order - нажатие кнопки "оформить" в корзине
 - form:onlineButtonSelected - выбор способа оплаты "онлайн" в форме

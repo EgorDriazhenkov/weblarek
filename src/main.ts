@@ -101,9 +101,6 @@ events.on('modal:close', () => {
   modal.display = false;
 })
 
-events.on('product:addInBasket', (item: IProduct) => {
-  basket.addItem(item)
-})
 
 events.on('backet:change', () => {
   header.render({'counter': basket.getProductsQuantity()})
