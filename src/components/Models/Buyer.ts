@@ -2,9 +2,9 @@ import { TPayment} from "../../types/index.ts"
 import { IEvents } from '../base/Events';
 
 export class Buyer {
-    private _address!: string;
-    private _email!: string;
-    private _phone!: string;
+    private _address: string = "";
+    private _email: string = "";
+    private _phone: string = "";
     private _payment!: TPayment
 
     constructor(protected events:IEvents) {
@@ -45,30 +45,31 @@ export class Buyer {
         this._email = "";
         this._payment = null;
         this._phone = "";
+        this.events.emit('buyer:change');
     }
 
     validate() {
       const valid : {address?: string, email? : string, payment?: string, phone?: string} = {};
       if (!this._address) {
-        valid.address = "Укажите адресс. "
+        valid.address = "Укажите адресс."
       } else {
         valid.address = ""
       }
 
       if (!this._email) {
-        valid.email = "Укажите email. "
+        valid.email = "Укажите email."
       } else {
         valid.email = ""
       }
 
       if (!this.payment) {
-        valid.payment = "Укажите вид оплаты. "
+        valid.payment = "Укажите вид оплаты."
       } else {
         valid.payment = ""
       }
 
       if (!this.phone) {
-        valid.phone = "Укажите телефон. "
+        valid.phone = "Укажите телефон."
       } else {
         valid.phone = ""
       }

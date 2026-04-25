@@ -7,7 +7,7 @@ interface IOrderForm {
   error?: string | undefined;
 }
 
-export class Form extends Component<IOrderForm> {
+export class Form<T> extends Component<T> {
   protected submitButtonElement: HTMLButtonElement;
   protected errorElement: HTMLElement;
   protected formName: string | null;

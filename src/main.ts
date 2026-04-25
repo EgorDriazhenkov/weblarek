@@ -37,6 +37,7 @@ const successView = new OrderSuccess(events, cloneTemplate('#success'));
 const header = new Header(events, headerElement as HTMLElement);
 const modal = new Modal(events, modalElement as HTMLElement)
 const gallery = new Gallery(galleryElement as HTMLElement)
+const cardPreview = new CardPreview(events, cloneTemplate('#card-preview'))
 
 
 const api = new Api(API_URL);
@@ -66,23 +67,34 @@ events.on('product:change', () => {
 })
 
 events.on('card:selected', (item: IProduct) => {
-    const card = new CardPreview(cloneTemplate('#card-preview'), { 
-      onClick: () => { 
-        if (basket.checkProductInBasket(item.id)) {
-          events.emit('product:remove', item)
-          card.inBasket = basket.checkProductInBasket(item.id)
-        } else{
-          events.emit('product:addInBasket', item)
-          card.inBasket = basket.checkProductInBasket(item.id)
-        }
-        }
-   });
-  card.inBasket =  basket.checkProductInBasket(item.id)
-  if(item.price === null) {
-    card.unavailability = true;
+
+  cardPreview.render(item)
+  cardPreview.availability = true;
+
+  if (basket.checkProductInBasket(item.id)) {
+    cardPreview.textButton = "Удалить из корзины"
+  } else {
+    cardPreview.textButton = "Купить"
   }
-  const cardPreview = card.render(item);
-  modal.render({content: cardPreview, display: true})
+
+  if (item.price === null) {
+    cardPreview.availability = false;
+    cardPreview.textButton = "Недоступно"
+ }
+  modal.render({content: cardPreview.render(), display: true})
+})
+
+events.on('selectedCardButton:click', (item: {id: string}) => {
+
+  const product = products.getProductById(item.id);
+
+  if (basket.checkProductInBasket(item.id)) {
+    basket.removeItem(product as IProduct)
+    cardPreview.textButton = "Купить"
+  } else {
+    basket.addItem(product as IProduct)
+    cardPreview.textButton = "Удалить из коризны"
+  }
 })
 
 events.on('modal:close', () => {
@@ -102,7 +114,7 @@ events.on('backet:change', () => {
     card.basketItemIndex = index + 1;
     return card.render(item)
   });
-  basketView.render({basketList: productsInBasket, totalPrice: basket.getProductsPrice()})
+  basketView.render({basketList: productsInBasket, totalPrice: basket.getProductsPrice(), valid: basket.getProductsQuantity() > 0})
 
   if (basket.getProductsQuantity() > 0) {
     basketView.valid = true;
@@ -147,26 +159,29 @@ events.on('form:change', (item: {field: string, value: string}) => {
 
 events.on('buyer:change', () => {
   const validate = buyer.validate();
-
   if (!validate.address && !validate.payment) {
     orderFormView.valid = true;
-    orderFormView.error = "" 
   } else {
-    orderFormView.error = `${validate.address}` + `${validate.payment}`
     orderFormView.valid = false;
   }
+
+  orderFormView.error = [validate.address, validate.payment].filter(Boolean).join(' ')
   
   if (!validate.email && !validate.phone) {
     contactsFormView.valid = true;
-    contactsFormView.error = "" 
   } else {
-    contactsFormView.error = `${validate.email}` + `${validate.phone}`
     contactsFormView.valid = false;
   }
+
+  contactsFormView.error = [validate.email, validate.phone].filter(Boolean).join(' ')
+
+  orderFormView.render({payment: buyer.payment, address: String(buyer.address)}) 
+  contactsFormView.render({email: buyer.email, phone: buyer.phone})
 })
 
 events.on('form:orderSubmit', () => {
   modal.render({content: contactsFormView.render(), display: true})
+
 })
 
 events.on('form:contactsSubmit', () => {
@@ -183,6 +198,7 @@ events.on('form:contactsSubmit', () => {
     modal.render({content: successView.render({total: data.total}), display: true})
     console.log('Заказ на сервер отправлен успешно')
     basket.clearBusket();
+    buyer.clear();
   })
   .catch((error) => {
     console.error('Ошибка при отправке заказа:', error);

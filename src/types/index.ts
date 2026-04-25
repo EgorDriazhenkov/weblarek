@@ -59,3 +59,7 @@ export interface ICardAction {
   onClick: () => void;
 }
 
+export interface IForm {
+  valid: boolean;
+  error?: string | undefined;
+}

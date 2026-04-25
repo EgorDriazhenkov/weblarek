@@ -2,16 +2,16 @@ import { categoryMap } from "../../utils/constants";
 import { ensureElement } from '../../utils/utils';
 import { IProduct } from "../../types";
 import { Card } from "./Card";
-import { ICardAction } from "../../types";
 import { CDN_URL } from "../../utils/constants";
 import { CategoryKey } from "../../types";
+import { IEvents } from '../base/Events';
 
 interface ICardPreview extends IProduct {
   category: string;
   image: string;
   decription: string;
-  inBasket: boolean;
-  unavailability: boolean;
+  textButton: string;
+  availability: boolean;
 
 }
 
@@ -22,20 +22,17 @@ export class CardPreview extends Card<ICardPreview> {
   protected descriptionElement: HTMLElement;
   protected buttonElement: HTMLButtonElement;
 
-  constructor(container: HTMLElement, action?:ICardAction) {
+  constructor(protected events:IEvents, container: HTMLElement) {
     super(container);
 
     this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
     this.categoryElement = ensureElement<HTMLElement>('.card__category', this.container);
     this.descriptionElement = ensureElement<HTMLElement>('.card__text', this.container);
     this.buttonElement = ensureElement<HTMLButtonElement>('.card__button', this.container);
-    this.inBasket = false
 
-    if (action?.onClick) {
-      this.buttonElement.addEventListener('click', () => {
-        action.onClick()
-      })
-    }
+    this.buttonElement.addEventListener('click', () => {
+      this.events.emit('selectedCardButton:click', {id:this.idElement})
+    })
    }
   
   set category(value: string) {
@@ -54,20 +51,12 @@ export class CardPreview extends Card<ICardPreview> {
     this.descriptionElement.textContent = value;
   }
 
-  set inBasket(value: boolean) {
-    if (value) {
-      this.buttonElement.textContent = 'Удалить из корзины';
-  
-    } else {
-      this.buttonElement.textContent = 'В корзину';
-    }
+  set textButton(value: string) {
+    this.buttonElement.textContent = value;
   }
 
-  set unavailability(value: boolean) {
-  if (value) {
-    this.buttonElement.textContent = 'Недоступно';
-    this.buttonElement.disabled = true;
-  }
+  set availability(value: boolean) {
+    this.buttonElement.disabled = !value;
   }
 
 }
