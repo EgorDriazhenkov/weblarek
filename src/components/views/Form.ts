@@ -2,11 +2,6 @@ import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
 
-interface IOrderForm {
-  valid: boolean;
-  error?: string | undefined;
-}
-
 export class Form<T> extends Component<T> {
   protected submitButtonElement: HTMLButtonElement;
   protected errorElement: HTMLElement;

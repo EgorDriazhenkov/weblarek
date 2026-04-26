@@ -2,8 +2,7 @@ import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 
 export class Card<T> extends Component<T> {
-  protected idElement!: string;
-  protected titleElement: HTMLElement;
+    protected titleElement: HTMLElement;
   protected priceElement: HTMLElement;
 
   constructor (container: HTMLElement) {
@@ -11,10 +10,6 @@ export class Card<T> extends Component<T> {
 
     this.titleElement = ensureElement<HTMLElement>('.card__title', this.container);
     this.priceElement = ensureElement<HTMLElement>('.card__price', this.container);
-  }
-
-  set id(value: string) {
-    this.idElement = value
   }
 
   set title(value: string) {

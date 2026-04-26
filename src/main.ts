@@ -67,32 +67,37 @@ events.on('product:change', () => {
 })
 
 events.on('card:selected', (item: IProduct) => {
+  products.setSelectedPoduct(item.id)
+})
 
-  cardPreview.render(item)
+events.on('selectedProduct:change', () => {
+  const product = products.getSelectedPoduct() 
+  
+  cardPreview.render(product)
   cardPreview.availability = true;
 
-  if (basket.checkProductInBasket(item.id)) {
+  if (basket.checkProductInBasket(product.id)) {
     cardPreview.textButton = "Удалить из корзины"
   } else {
     cardPreview.textButton = "Купить"
   }
 
-  if (item.price === null) {
+  if (product.price === null) {
     cardPreview.availability = false;
     cardPreview.textButton = "Недоступно"
  }
   modal.render({content: cardPreview.render(), display: true})
 })
 
-events.on('selectedCardButton:click', (item: {id: string}) => {
+events.on('selectedCardButton:click', () => {
 
-  const product = products.getProductById(item.id);
+  const product = products.getSelectedPoduct();
 
-  if (basket.checkProductInBasket(item.id)) {
-    basket.removeItem(product as IProduct)
+  if (basket.checkProductInBasket(product.id)) {
+    basket.removeItem(product)
     cardPreview.textButton = "Купить"
   } else {
-    basket.addItem(product as IProduct)
+    basket.addItem(product)
     cardPreview.textButton = "Удалить из коризны"
   }
 })
@@ -100,7 +105,6 @@ events.on('selectedCardButton:click', (item: {id: string}) => {
 events.on('modal:close', () => {
   modal.display = false;
 })
-
 
 events.on('backet:change', () => {
   header.render({'counter': basket.getProductsQuantity()})

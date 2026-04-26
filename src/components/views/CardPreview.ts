@@ -31,7 +31,7 @@ export class CardPreview extends Card<ICardPreview> {
     this.buttonElement = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
     this.buttonElement.addEventListener('click', () => {
-      this.events.emit('selectedCardButton:click', {id:this.idElement})
+      this.events.emit('selectedCardButton:click')
     })
    }
   

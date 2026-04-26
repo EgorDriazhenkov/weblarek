@@ -19,18 +19,19 @@ export class Products {
     return this._items;
   }
 
-  getProductById (itemId:string): IProduct | undefined {
+  getProductById (itemId:string): IProduct {
   return this._items.find((item: IProduct):boolean => {
     return item.id === itemId
-  });
+  }) as IProduct;
  }
 
   setSelectedPoduct(itemId:string) {
-    this._selectedProduct = this.getProductById(itemId)
+    this._selectedProduct = this.getProductById(itemId) 
+    this.events.emit('selectedProduct:change')
   }
 
-  getSelectedPoduct() {
-    return this._selectedProduct
+  getSelectedPoduct():IProduct {
+    return this._selectedProduct as IProduct
   }
 }
 
